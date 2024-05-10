@@ -6,36 +6,38 @@ import noteContext from '../context/notes/noteContext';
 function DisplayNotes() {
 
   const context = useContext(noteContext);
-  const { notes, fetchNotes, addNote, deleteNote, updateNote } = context;
+  const { notes, fetchNotes, updateNote } = context;
   useEffect(() => {
     fetchNotes()
-  }, [addNote, deleteNote, updateNote])
+  }, )
 
   const editNote = (note) => {
-    btnref.current.click();
+    setNote({id: note._id, title: note.title, description: note.description, tag: note.tag})
+    modalbtnref.current.click();
   }
 
-  const btnref = useRef(null);
+  const modalbtnref = useRef(null);
+  const clsoebtnref = useRef(null);
 
-  const handleSubmit = (e) => {
-    console.log(note.title, note.description, note.tag);
-    e.preventDefault();
-    console.log('Note submiting');
-    addNote(note.title, note.description, note.tag)
-    console.log('Note submitted');    
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
+    // console.log('Updating the note...', note);
+    await updateNote(note.id, note.title, note.description, note.tag)
+    clsoebtnref.current.click();   
+    setNote({title: "", description: "", tag: ""})
 }
 
-const [note, setNote] = useState({title: "", description: "", tag: "default"})
+const [note, setNote] = useState({id: "", title: "", description: "", tag: "default"})
 
 const handleOnchange = (e) => {
     setNote({...note,[e.target.name]: e.target.value})
-    console.log(note.title, note.description);
+    // console.log(note.title, note.description);
 }
 
   return (
     <div>
       {/* <!-- Button trigger modal --> */}
-      <button type="button" className="btn btn-primary" ref={btnref} data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button" className="btn btn-primary d-none" ref={modalbtnref} data-bs-toggle="modal" data-bs-target="#exampleModal">
         Launch demo modal
       </button>
 
@@ -45,17 +47,17 @@ const handleOnchange = (e) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button ref={clsoebtnref} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
             <form className='my-3'>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Note Title</label>
-                    <input type="title" className="form-control" id="title" name='title' aria-describedby="title" onChange={handleOnchange}/>
+                    <input type="title" className="form-control" id="title" name='title' aria-describedby="title" value={note.title} onChange={handleOnchange}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Note Description</label>
-                    <input type="description" className="form-control" name='description' id="description" onChange={handleOnchange}/>
+                    <input type="description" className="form-control" name='description' id="description" value={note.description} onChange={handleOnchange}/>
                 </div>
                 {/* <div className="mb-3 form-check">
                     <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
@@ -65,7 +67,7 @@ const handleOnchange = (e) => {
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Update Note</button>
+              <button type="submit" className="btn btn-primary" disabled={note.title.length < 3 || note.description.length < 5} onClick={handleSubmit}>Update Note</button>
             </div>
           </div>
         </div>
