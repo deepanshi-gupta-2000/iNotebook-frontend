@@ -1,18 +1,29 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import NoteItem from './NoteItem';
 import noteContext from '../context/notes/noteContext';
+import { useNavigate } from 'react-router-dom';
 // import AddNote from './AddNote';
 
 function DisplayNotes() {
 
   const context = useContext(noteContext);
   const { notes, fetchNotes, updateNote } = context;
+  const navigate = useNavigate();
+
   useEffect(() => {
-    fetchNotes()
-  }, )
+    if (localStorage.getItem('token')){
+      fetchNotes()
+    }
+    else{
+      navigate('/login')
+    }
+    // fetchNotes()
+  },)
+
+
 
   const editNote = (note) => {
-    setNote({id: note._id, title: note.title, description: note.description, tag: note.tag})
+    setNote({ id: note._id, title: note.title, description: note.description, tag: note.tag })
     modalbtnref.current.click();
   }
 
@@ -23,16 +34,16 @@ function DisplayNotes() {
     // e.preventDefault();
     // console.log('Updating the note...', note);
     await updateNote(note.id, note.title, note.description, note.tag)
-    clsoebtnref.current.click();   
-    setNote({title: "", description: "", tag: ""})
-}
+    clsoebtnref.current.click();
+    setNote({ title: "", description: "", tag: "" })
+  }
 
-const [note, setNote] = useState({id: "", title: "", description: "", tag: "default"})
+  const [note, setNote] = useState({ id: "", title: "", description: "", tag: "default" })
 
-const handleOnchange = (e) => {
-    setNote({...note,[e.target.name]: e.target.value})
+  const handleOnchange = (e) => {
+    setNote({ ...note, [e.target.name]: e.target.value })
     // console.log(note.title, note.description);
-}
+  }
 
   return (
     <div>
@@ -50,20 +61,20 @@ const handleOnchange = (e) => {
               <button ref={clsoebtnref} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-            <form className='my-3'>
+              <form className='my-3'>
                 <div className="mb-3">
-                    <label htmlFor="title" className="form-label">Note Title</label>
-                    <input type="title" className="form-control" id="title" name='title' aria-describedby="title" value={note.title} onChange={handleOnchange}/>
+                  <label htmlFor="title" className="form-label">Note Title</label>
+                  <input type="title" className="form-control" id="title" name='title' aria-describedby="title" value={note.title} onChange={handleOnchange} />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="description" className="form-label">Note Description</label>
-                    <input type="description" className="form-control" name='description' id="description" value={note.description} onChange={handleOnchange}/>
+                  <label htmlFor="description" className="form-label">Note Description</label>
+                  <input type="description" className="form-control" name='description' id="description" value={note.description} onChange={handleOnchange} />
                 </div>
                 {/* <div className="mb-3 form-check">
                     <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
                         <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div> */}
-            </form>
+              </form>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
