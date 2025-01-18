@@ -11,12 +11,17 @@ import Home from './components/Home';
 import About from './components/About';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import LandingPage from './components/LandingPage';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
     children: [
+      {
+        path: '/',
+        element: <LandingPage/>
+      },
       {
         path: "/home",
         element: <Home />,

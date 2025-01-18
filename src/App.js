@@ -4,13 +4,18 @@ import NoteState from './context/notes/NoteState';
 
 
 function App() {
+  // const navigate = useNavigate();
   return (
     <>
+    
       <NoteState>
+      
         <Navbar />
+        
         <Outlet />
+       
       </NoteState>
-
+      
 
     </>
   );

@@ -27,17 +27,17 @@ function AddNote() {
             <form className='my-3'>
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Note Title</label>
-                    <input type="title" className="form-control" id="title" name='title' aria-describedby="title" minLength={3} required value={note.title} onChange={handleOnchange}/>
+                    <input type="title" className="form-control" id="title" name='title' aria-describedby="title" minLength={1} required value={note.title} onChange={handleOnchange}/>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Note Description</label>
-                    <input type="description" className="form-control" name='description' id="description" minLength={5} required value={note.description} onChange={handleOnchange}/>
+                    <input type="description" className="form-control" name='description' id="description" minLength={1} required value={note.description} onChange={handleOnchange}/>
                 </div>
                 {/* <div className="mb-3 form-check">
                     <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
                         <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div> */}
-                <button type="submit" disabled={note.title.length < 3 || note.description.length < 5} className="btn btn-primary" onClick={handleSubmit}>Add Note</button>
+                <button type="submit" disabled={note.title.length < 1 || note.description.length < 1} className="btn btn-primary" onClick={handleSubmit}>Add Note</button>
             </form>
         </div>
     )

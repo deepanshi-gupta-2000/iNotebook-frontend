@@ -48,7 +48,7 @@ function SignUp() {
                     <input type="password" className="form-control" id="password" name="password" onChange={handleonChange}/>
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="cpassword" className="form-label">Password</label>
+                    <label htmlFor="cpassword" className="form-label">Confirm Password</label>
                     <input type="cpassword" className="form-control" id="cpassword" name="cpassword" onChange={handleonChange}/>
                 </div>
                 <button type="submit" className="btn btn-primary">Submit</button>
